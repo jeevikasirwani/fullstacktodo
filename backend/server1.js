@@ -1,56 +1,62 @@
 const express = require("express");
+const { createTodo, updateTodo } = require("./types");
+const { todo } = require("./db");
+const cors = require("cors");
 const app = express();
-app.use(express.json());
-const PORT = 3000;
-import mongoose from "mongoose";
-import { TodoModel } from "./db";
-import { createTodo, updateTodo } from "./types";
-//title description
 
-app.get("/todo", async (req, res) => {
+app.use(express.json());
+app.use(cors());
+
+app.post("/todo", async function(req, res) {
     const createPayload = req.body;
-    const validate = createTodo.safeParse(createPayload);
-    if (!validate.success) {
-        res.status(403).send({ msg: "Not a Valid User" })
+    const parsedPayload = createTodo.safeParse(createPayload);
+
+    if (!parsedPayload.success) {
+        res.status(411).json({
+            msg: "You sent the wrong inputs",
+        })
         return;
     }
-    await TodoModel.create({
+    // put it in mongodb
+    await todo.create({
         title: createPayload.title,
         description: createPayload.description,
         completed: false
     })
+
     res.json({
-        msg: "User Created"
+        msg: "Todo created"
     })
 })
 
+app.get("/todos", async function(req, res) {
+    // const todos = await todo.find({});
 
-app.get("/todos", async (req, res) => {
-    const todo = await TodoModel.find({});
     res.json({
-        todo
+        todos: []
     })
+
 })
 
-
-app.put("/completed", async (req, res) => {
+app.put("/completed", async function(req, res) {
     const updatePayload = req.body;
-    const validate = updateTodo.safeParse(updatePayload);
-    if (!validate.success) {
-        res.status(403).send({ msg: "Tree clean nothing to update" })
+    const parsedPayload = updateTodo.safeParse(updatePayload);
+    if (!parsedPayload.success) {
+        res.status(411).json({
+            msg: "You sent the wrong inputs",
+        })
         return;
     }
-    await TodoModel.update({
+
+    await todo.update({
         _id: req.body.id
     }, {
-        completed: true
-    })
-    res.json({
-        msg: "Marked as Completed"
+      completed: true  
     })
 
+    res.json({
+        msg: "Todo marked as completed"
+    })
 })
 
-app.listen(PORT);
-
-
+app.listen(3000);

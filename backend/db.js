@@ -1,14 +1,16 @@
-const mongoose=require("mongoose");
-mongoose.connect("your url")
-const TodoSchema=mongoose.Schema=({
-    title:String,
-    description:String,
-    completed:Boolean
+const mongoose = require("mongoose");
+
+
+mongoose.connect("mongodb+srv://jeevikasirwani2003:zxLBHNXzixAzBHYm@todoapp.yc6gaw6.mongodb.net/todoapp")
+const todoSchema = mongoose.Schema({
+    title: String,
+    description: String,
+    completed: Boolean
 })
 
-const TodoModel=mongoose.model("todomodel",TodoSchema)
+const todo = mongoose.model('todos', todoSchema);
 
-
-module.exports={
-    TodoModel:TodoModel
+module.exports = {
+    todo
 }
+// mongodb+srv://jeevikasirwani2003:zxLBHNXzixAzBHYm@todoapp.yc6gaw6.mongodb.net/todoapp
