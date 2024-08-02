@@ -1,13 +1,13 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export function Todos() {
   const [todos, setTodos] = useState([]);
-
-  fetch("http://localhost:3000/todos").then(async function (res) {
-    const json = await res.json();
-    setTodos(json.todos);
-  });
-
+  useEffect(() => {
+    fetch("http://localhost:3000/todos").then(async function (res) {
+      const json = await res.json();
+      setTodos(json.todos);
+    });
+  }, []);
   return (
     <div>
       {todos && todos.length > 0 ? (
