@@ -3,3 +3,11 @@
   color: #747bff;
   background-color: #242424;
 }
+button{
+  color-scheme: light dark;
+  color: #747bff;
+  background-color: #242424;
+  border-radius: 5px;
+  padding: 10px;
+  margin: 10px;
+}

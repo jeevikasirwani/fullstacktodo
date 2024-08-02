@@ -6,7 +6,7 @@ function App() {
  
   return (
     <>
-      <h1>hi there</h1>
+      <h1>TODO APP📝🍃</h1>
       <CreateTodo />
       <Todos/>
     </>
